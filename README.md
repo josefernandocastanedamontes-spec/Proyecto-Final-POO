@@ -1,12 +1,13 @@
 # El Impostor — Proyecto final POO
 
-Juego de deducción social desarrollado en Python 3 con interfaz de escritorio Tkinter. Entre 3 y 10 participantes reciben roles: los civiles conocen una palabra secreta y el impostor debe disimular que la desconoce.
+Juego de deducción social desarrollado en Python 3 con interfaz de escritorio Tkinter. Participan entre 3 y 10 jugadores: los civiles conocen una palabra secreta y el impostor debe disimular que la desconoce.
 
-## Requisitos y ejecución
+## Requisitos
 - Python 3.10 o superior.
-- Tkinter disponible en la instalación.
+- Tkinter disponible en la instalación de Python.
 - No se requieren paquetes externos para la ejecución básica.
 
+## Ejecución
 Desde la raíz del repositorio:
 
 ```bash
@@ -19,18 +20,21 @@ python main.py
 python -m unittest discover -s test -v
 ```
 
-Actualmente hay cuatro pruebas unitarias enfocadas en asignación de roles, consulta de palabras, validación de pistas y conteo por mayoría. No constituyen una prueba de integración de una partida completa.
+La suite actual contiene 9 pruebas unitarias sobre asignación de roles, banco de palabras, validación de pistas, conteo y desempate, transiciones de fase, configuración y resultados.
 
 ## Estructura
-- `modelos/`: entidades, roles, estados, configuración y resultados.
-- `servicios/`: asignación, consulta de palabras, validación y conteo.
+- `modelos/`: entidades, roles, estados, configuración, resultados y excepciones.
+- `servicios/`: asignación, consulta de palabras, validación y conteo de votos.
 - `controlador/`: coordinación de partida, rondas y votación.
-- `vista/`: contratos de vista e interfaz Tkinter.
+- `vista/`: contratos de la vista e interfaz Tkinter.
 - `test/`: pruebas unitarias.
-- `docs/`: documentación y diagramas.
+- `docs/`: documentación técnica y diagramas.
 
-## Documentación
-- [Documentación técnica ajustada a main](docs/Documentacion_Tecnica_El_Impostor_main.md)
-- [Diagrama de clases de la implementación](docs/diagrama_clases_main.mmd)
+## Documentación y UML
+- [Documentación técnica en Word](docs/Documentacion_Tecnica_El_Impostor_main.docx)
+- [Documentación técnica en PDF](docs/Documentacion_Tecnica_El_Impostor_main.pdf)
+- [Fotografía del UML original del equipo](docs/diagrama_UML_original.jpg)
+- [Diagrama de clases actualizado (Mermaid)](docs/diagrama_clases_main.mmd)
 
-La documentación separa las funciones existentes de los pendientes técnicos detectados en la revisión estática.
+## Reglas de desempate
+Si la votación inicial termina empatada, se realiza una segunda votación entre los candidatos empatados. Si el empate persiste, la implementación asigna la victoria de esa ronda al impostor por supervivencia. Esta última decisión es provisional y debe confirmarse con el docente.

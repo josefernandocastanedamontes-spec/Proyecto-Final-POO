@@ -493,6 +493,20 @@ class VistaGraficaTkinter(IVistaJuego):
             ).pack(side=tk.LEFT, fill=tk.X, expand=True)
 
         restante = [segundos_debate]
+        debate_finalizado = [False]
+
+        def finalizar_debate_una_vez():
+            # Evita que el temporizador y el boton disparen dos veces la votacion.
+            if debate_finalizado[0]:
+                return
+            debate_finalizado[0] = True
+            if self._timer_id is not None:
+                try:
+                    self.root.after_cancel(self._timer_id)
+                except tk.TclError:
+                    pass
+                self._timer_id = None
+            on_finalizar_debate()
 
         def actualizar_reloj():
             restante[0] -= 1
@@ -502,6 +516,7 @@ class VistaGraficaTkinter(IVistaJuego):
             else:
                 lbl_tiempo.config(text="Tiempo de debate terminado")
                 self._timer_id = None
+                finalizar_debate_una_vez()
 
         self._timer_id = self.root.after(1000, actualizar_reloj)
 
@@ -510,7 +525,7 @@ class VistaGraficaTkinter(IVistaJuego):
         self._crear_boton(
             frame_btn,
             "Ir a Votacion Secreta",
-            on_finalizar_debate,
+            finalizar_debate_una_vez,
             bg="#cba6f7",
             width=26,
         ).pack()
