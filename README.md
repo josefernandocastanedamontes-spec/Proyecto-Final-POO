@@ -31,10 +31,11 @@ La suite actual contiene 9 pruebas unitarias sobre asignación de roles, banco d
 - `docs/`: documentación técnica y diagramas.
 
 ## Documentación y UML
-- [Documentación técnica en Word](docs/Documentacion_Tecnica_El_Impostor_main.docx)
-- [Documentación técnica en PDF](docs/Documentacion_Tecnica_El_Impostor_main.pdf)
-- [Fotografía del UML original del equipo](docs/diagrama_UML_original.jpg)
+- [Documentación técnica (Markdown)](docs/Documentacion_Tecnica_El_Impostor_main.md)
 - [Diagrama de clases actualizado (Mermaid)](docs/diagrama_clases_main.mmd)
+- [Decisión de desempate y regla provisional](docs/decisiones.md)
+
+La entrega editable Word y PDF, con la fotografía original del UML manuscrito en el Anexo A, se adjunta en los archivos compartidos junto con esta actualización. Esos binarios no están almacenados directamente en GitHub en esta rama.
 
 ## Reglas de desempate
 Si la votación inicial termina empatada, se realiza una segunda votación entre los candidatos empatados. Si el empate persiste, la implementación asigna la victoria de esa ronda al impostor por supervivencia. Esta última decisión es provisional y debe confirmarse con el docente.
