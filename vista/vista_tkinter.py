@@ -6,38 +6,34 @@ from vista.interfaces import IVistaJuego
 
 
 class VistaGraficaTkinter(IVistaJuego):
-    """Implementación gráfica en Tkinter sin lógica de negocio (Patrón MVC)."""
-
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("El Impostor - Proyecto Final POO")
-        self.root.geometry("760x640")
-        self.root.minsize(700, 580)
-        self.root.configure(bg="#181825")
+        self.root.title("El Impostor - POO")
+        self.root.geometry("740x620")
+        self.root.minsize(680, 560)
+        self.root.configure(bg="#f0f2f5")
 
         self._timer_id: Optional[str] = None
         self._configurar_estilos()
 
-        # Encabezado superior fijo
-        header = tk.Frame(self.root, bg="#11111b", pady=12)
+        header = tk.Frame(self.root, bg="#2c3e50", pady=12)
         header.pack(fill=tk.X)
         tk.Label(
             header,
-            text="🕵️ EL IMPOSTOR",
-            font=("Segoe UI", 18, "bold"),
-            fg="#cba6f7",
-            bg="#11111b",
+            text="EL IMPOSTOR",
+            font=("Arial", 16, "bold"),
+            fg="#ffffff",
+            bg="#2c3e50",
         ).pack()
         tk.Label(
             header,
-            text="Juego de Deducción, Creatividad y Engaño",
-            font=("Segoe UI", 9),
-            fg="#a6adc8",
-            bg="#11111b",
+            text="Juego de deduccion y palabras secretas",
+            font=("Arial", 9),
+            fg="#d0d7de",
+            bg="#2c3e50",
         ).pack()
 
-        # Contenedor dinámico central
-        self.contenedor = tk.Frame(self.root, bg="#181825", padx=25, pady=15)
+        self.contenedor = tk.Frame(self.root, bg="#f0f2f5", padx=24, pady=16)
         self.contenedor.pack(fill=tk.BOTH, expand=True)
 
     def _configurar_estilos(self) -> None:
@@ -46,12 +42,6 @@ class VistaGraficaTkinter(IVistaJuego):
             style.theme_use("clam")
         except tk.TclError:
             pass
-        style.configure(
-            "TCombobox",
-            fieldbackground="#313244",
-            background="#45475a",
-            foreground="#cdd6f4",
-        )
 
     def _limpiar_pantalla(self) -> None:
         if self._timer_id is not None:
@@ -60,26 +50,26 @@ class VistaGraficaTkinter(IVistaJuego):
         for widget in self.contenedor.winfo_children():
             widget.destroy()
 
-    def _crear_tarjeta(self, parent: tk.Widget, pady: int = 8) -> tk.Frame:
-        card = tk.Frame(
+    def _crear_panel(self, parent: tk.Widget, pady: int = 8) -> tk.Frame:
+        panel = tk.Frame(
             parent,
-            bg="#1e1e2e",
-            padx=20,
-            pady=15,
-            highlightbackground="#313244",
+            bg="#ffffff",
+            padx=18,
+            pady=14,
+            highlightbackground="#d0d7de",
             highlightthickness=1,
         )
-        card.pack(fill=tk.X, pady=pady)
-        return card
+        panel.pack(fill=tk.X, pady=pady)
+        return panel
 
     def _crear_boton(
         self,
         parent: tk.Widget,
         texto: str,
         comando: Callable,
-        bg: str = "#89b4fa",
-        fg: str = "#11111b",
-        width: int = 24,
+        bg: str = "#2980b9",
+        fg: str = "#ffffff",
+        width: int = 22,
     ) -> tk.Button:
         return tk.Button(
             parent,
@@ -87,17 +77,15 @@ class VistaGraficaTkinter(IVistaJuego):
             command=comando,
             bg=bg,
             fg=fg,
-            activebackground="#b4befe",
-            activeforeground="#11111b",
-            font=("Segoe UI", 10, "bold"),
+            activebackground="#1f6391",
+            activeforeground="#ffffff",
+            font=("Arial", 10, "bold"),
             relief=tk.FLAT,
             cursor="hand2",
-            padx=12,
-            pady=7,
+            padx=10,
+            pady=6,
             width=width,
         )
-
-    # ---------------- IVistaJuego ----------------
 
     def iniciar(self) -> None:
         self.root.mainloop()
@@ -107,8 +95,6 @@ class VistaGraficaTkinter(IVistaJuego):
 
     def mostrar_info(self, titulo: str, mensaje: str) -> None:
         messagebox.showinfo(titulo, mensaje, parent=self.root)
-
-    # ---------------- IVistaRegistro ----------------
 
     def mostrar_registro(
         self,
@@ -122,34 +108,33 @@ class VistaGraficaTkinter(IVistaJuego):
 
         tk.Label(
             self.contenedor,
-            text="1. Registro de Jugadores y Configuración",
-            font=("Segoe UI", 14, "bold"),
-            fg="#cdd6f4",
-            bg="#181825",
-        ).pack(anchor="w", pady=(0, 8))
-
-        # Tarjeta de jugadores
-        card_jug = self._crear_tarjeta(self.contenedor)
-        tk.Label(
-            card_jug,
-            text="Jugadores inscritos (mínimo 3, máximo 10):",
-            font=("Segoe UI", 10, "bold"),
-            fg="#f9e2af",
-            bg="#1e1e2e",
+            text="Registro de Jugadores y Configuracion",
+            font=("Arial", 13, "bold"),
+            fg="#1f2328",
+            bg="#f0f2f5",
         ).pack(anchor="w", pady=(0, 6))
 
-        fila_input = tk.Frame(card_jug, bg="#1e1e2e")
+        panel_jug = self._crear_panel(self.contenedor)
+        tk.Label(
+            panel_jug,
+            text="Jugadores inscritos (3 a 10 jugadores):",
+            font=("Arial", 10, "bold"),
+            fg="#2c3e50",
+            bg="#ffffff",
+        ).pack(anchor="w", pady=(0, 6))
+
+        fila_input = tk.Frame(panel_jug, bg="#ffffff")
         fila_input.pack(fill=tk.X, pady=(0, 8))
 
         entry_nombre = tk.Entry(
             fila_input,
-            font=("Segoe UI", 11),
-            bg="#313244",
-            fg="#cdd6f4",
-            insertbackground="#cdd6f4",
-            relief=tk.FLAT,
+            font=("Arial", 10),
+            bg="#f6f8fa",
+            fg="#1f2328",
+            relief=tk.SOLID,
+            bd=1,
         )
-        entry_nombre.pack(side=tk.LEFT, fill=tk.X, expand=True, ipady=5, padx=(0, 8))
+        entry_nombre.pack(side=tk.LEFT, fill=tk.X, expand=True, ipady=4, padx=(0, 8))
         entry_nombre.focus_set()
 
         def agregar_evento(_event=None):
@@ -160,26 +145,27 @@ class VistaGraficaTkinter(IVistaJuego):
         entry_nombre.bind("<Return>", agregar_evento)
 
         self._crear_boton(
-            fila_input, "+ Agregar", agregar_evento, bg="#a6e3a1", width=12
+            fila_input, "Agregar", agregar_evento, bg="#27ae60", width=12
         ).pack(side=tk.LEFT)
 
-        fila_lista = tk.Frame(card_jug, bg="#1e1e2e")
+        fila_lista = tk.Frame(panel_jug, bg="#ffffff")
         fila_lista.pack(fill=tk.X)
 
         listbox = tk.Listbox(
             fila_lista,
             height=5,
-            font=("Segoe UI", 10),
-            bg="#313244",
-            fg="#cdd6f4",
-            selectbackground="#89b4fa",
-            selectforeground="#11111b",
-            relief=tk.FLAT,
+            font=("Arial", 10),
+            bg="#f6f8fa",
+            fg="#1f2328",
+            selectbackground="#2980b9",
+            selectforeground="#ffffff",
+            relief=tk.SOLID,
+            bd=1,
         )
         listbox.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 8))
 
         for idx, nombre in enumerate(jugadores_actuales, start=1):
-            listbox.insert(tk.END, f"  {idx}. {nombre}")
+            listbox.insert(tk.END, f" {idx}. {nombre}")
 
         def eliminar_seleccionado():
             seleccion = listbox.curselection()
@@ -187,92 +173,85 @@ class VistaGraficaTkinter(IVistaJuego):
                 on_eliminar_jugador(seleccion[0])
 
         self._crear_boton(
-            fila_lista, "Quitar", eliminar_seleccionado, bg="#f38ba8", width=10
+            fila_lista, "Eliminar", eliminar_seleccionado, bg="#c0392b", width=12
         ).pack(side=tk.LEFT, anchor="n")
 
-        # Tarjeta de configuración (RF-12)
-        card_cfg = self._crear_tarjeta(self.contenedor)
+        panel_cfg = self._crear_panel(self.contenedor)
         tk.Label(
-            card_cfg,
-            text="Configuración de la Partida:",
-            font=("Segoe UI", 10, "bold"),
-            fg="#89dceb",
-            bg="#1e1e2e",
+            panel_cfg,
+            text="Parametros de la partida:",
+            font=("Arial", 10, "bold"),
+            fg="#2c3e50",
+            bg="#ffffff",
         ).grid(row=0, column=0, columnspan=4, sticky="w", pady=(0, 8))
 
-        tk.Label(card_cfg, text="Categoría:", fg="#cdd6f4", bg="#1e1e2e").grid(
+        tk.Label(panel_cfg, text="Categoria:", fg="#1f2328", bg="#ffffff").grid(
             row=1, column=0, sticky="w", padx=(0, 6), pady=4
         )
         var_cat = tk.StringVar(value=categorias[0] if categorias else "Lugares")
         combo_cat = ttk.Combobox(
-            card_cfg, textvariable=var_cat, values=categorias, state="readonly", width=15
+            panel_cfg, textvariable=var_cat, values=categorias, state="readonly", width=16
         )
         combo_cat.grid(row=1, column=1, sticky="w", padx=(0, 20), pady=4)
 
-        tk.Label(card_cfg, text="Máx. Rondas:", fg="#cdd6f4", bg="#1e1e2e").grid(
+        tk.Label(panel_cfg, text="Numero de rondas:", fg="#1f2328", bg="#ffffff").grid(
             row=1, column=2, sticky="w", padx=(0, 6), pady=4
         )
         var_rondas = tk.IntVar(value=3)
         tk.Spinbox(
-            card_cfg,
+            panel_cfg,
             from_=1,
             to=10,
             textvariable=var_rondas,
             width=6,
-            bg="#313244",
-            fg="#cdd6f4",
-            relief=tk.FLAT,
+            relief=tk.SOLID,
+            bd=1,
         ).grid(row=1, column=3, sticky="w", pady=4)
 
-        tk.Label(card_cfg, text="Debate (seg):", fg="#cdd6f4", bg="#1e1e2e").grid(
+        tk.Label(panel_cfg, text="Tiempo debate (seg):", fg="#1f2328", bg="#ffffff").grid(
             row=2, column=0, sticky="w", padx=(0, 6), pady=4
         )
         var_tiempo = tk.IntVar(value=60)
         tk.Spinbox(
-            card_cfg,
+            panel_cfg,
             from_=10,
             to=300,
             increment=10,
             textvariable=var_tiempo,
             width=6,
-            bg="#313244",
-            fg="#cdd6f4",
-            relief=tk.FLAT,
+            relief=tk.SOLID,
+            bd=1,
         ).grid(row=2, column=1, sticky="w", padx=(0, 20), pady=4)
 
-        tk.Label(card_cfg, text="Máx. letras pista:", fg="#cdd6f4", bg="#1e1e2e").grid(
+        tk.Label(panel_cfg, text="Max. caracteres pista:", fg="#1f2328", bg="#ffffff").grid(
             row=2, column=2, sticky="w", padx=(0, 6), pady=4
         )
         var_long = tk.IntVar(value=25)
         tk.Spinbox(
-            card_cfg,
+            panel_cfg,
             from_=5,
             to=60,
             textvariable=var_long,
             width=6,
-            bg="#313244",
-            fg="#cdd6f4",
-            relief=tk.FLAT,
+            relief=tk.SOLID,
+            bd=1,
         ).grid(row=2, column=3, sticky="w", pady=4)
 
         var_ultima = tk.BooleanVar(value=True)
         tk.Checkbutton(
-            card_cfg,
-            text="Permitir última oportunidad al Impostor para adivinar la palabra",
+            panel_cfg,
+            text="Permitir ultima oportunidad al Impostor para adivinar la palabra",
             variable=var_ultima,
-            bg="#1e1e2e",
-            fg="#cdd6f4",
-            selectcolor="#313244",
-            activebackground="#1e1e2e",
-            activeforeground="#cdd6f4",
+            bg="#ffffff",
+            fg="#1f2328",
+            activebackground="#ffffff",
         ).grid(row=3, column=0, columnspan=4, sticky="w", pady=(8, 0))
 
-        # Botón iniciar
-        frame_btn = tk.Frame(self.contenedor, bg="#181825")
-        frame_btn.pack(pady=14)
+        frame_btn = tk.Frame(self.contenedor, bg="#f0f2f5")
+        frame_btn.pack(pady=12)
         self._crear_boton(
             frame_btn,
-            "▶ INICIAR PARTIDA",
+            "Iniciar Partida",
             lambda: on_iniciar_partida(
                 var_cat.get(),
                 var_rondas.get(),
@@ -280,11 +259,9 @@ class VistaGraficaTkinter(IVistaJuego):
                 var_long.get(),
                 var_ultima.get(),
             ),
-            bg="#cba6f7",
-            width=28,
+            bg="#2c3e50",
+            width=24,
         ).pack()
-
-    # ---------------- IVistaTurno ----------------
 
     def mostrar_asignacion_privada(
         self,
@@ -298,65 +275,67 @@ class VistaGraficaTkinter(IVistaJuego):
 
         tk.Label(
             self.contenedor,
-            text=f"Asignación Secreta de Roles ({numero_jugador}/{total_jugadores})",
-            font=("Segoe UI", 13, "bold"),
-            fg="#89b4fa",
-            bg="#181825",
-        ).pack(pady=(5, 10))
+            text=f"Asignacion de Roles ({numero_jugador} de {total_jugadores})",
+            font=("Arial", 13, "bold"),
+            fg="#1f2328",
+            bg="#f0f2f5",
+        ).pack(pady=(4, 8))
 
-        card = self._crear_tarjeta(self.contenedor, pady=15)
-
-        tk.Label(
-            card,
-            text=f"Pasa el dispositivo a: {nombre_jugador}",
-            font=("Segoe UI", 16, "bold"),
-            fg="#f9e2af",
-            bg="#1e1e2e",
-        ).pack(pady=(5, 6))
+        panel = self._crear_panel(self.contenedor, pady=12)
 
         tk.Label(
-            card,
-            text="⚠️ Asegúrate de que los demás jugadores NO miren la pantalla.",
-            font=("Segoe UI", 10),
-            fg="#f38ba8",
-            bg="#1e1e2e",
-        ).pack(pady=(0, 15))
+            panel,
+            text=f"Turno de: {nombre_jugador}",
+            font=("Arial", 15, "bold"),
+            fg="#2c3e50",
+            bg="#ffffff",
+        ).pack(pady=(6, 4))
+
+        tk.Label(
+            panel,
+            text="Asegurate de que los demas jugadores no miren la pantalla.",
+            font=("Arial", 9),
+            fg="#c0392b",
+            bg="#ffffff",
+        ).pack(pady=(0, 14))
 
         lbl_secreto = tk.Label(
-            card,
-            text="[ ROL OCULTO ]",
-            font=("Segoe UI", 13, "bold"),
-            fg="#a6adc8",
-            bg="#313244",
-            width=38,
+            panel,
+            text="ROL OCULTO",
+            font=("Arial", 12, "bold"),
+            fg="#57606a",
+            bg="#f6f8fa",
+            width=40,
             height=4,
+            relief=tk.SOLID,
+            bd=1,
             justify=tk.CENTER,
         )
-        lbl_secreto.pack(pady=10)
+        lbl_secreto.pack(pady=8)
 
         btn_siguiente = self._crear_boton(
-            card,
-            "Ocultar y Pasar Turno ➡",
+            panel,
+            "Ocultar y Continuar",
             on_siguiente_jugador,
-            bg="#a6e3a1",
-            width=26,
+            bg="#27ae60",
+            width=24,
         )
 
         def revelar():
             texto = obtener_texto_rol()
-            color = "#f38ba8" if "IMPOSTOR" in texto.upper() else "#a6e3a1"
+            color = "#c0392b" if "IMPOSTOR" in texto.upper() else "#1e7e34"
             lbl_secreto.config(text=texto, fg=color)
             btn_revelar.pack_forget()
-            btn_siguiente.pack(pady=(12, 5))
+            btn_siguiente.pack(pady=(12, 4))
 
         btn_revelar = self._crear_boton(
-            card,
-            "👁️ Mostrar mi Rol y Palabra",
+            panel,
+            "Mostrar mi Rol",
             revelar,
-            bg="#89b4fa",
-            width=26,
+            bg="#2980b9",
+            width=24,
         )
-        btn_revelar.pack(pady=(12, 5))
+        btn_revelar.pack(pady=(12, 4))
 
     def mostrar_turno_pista(
         self,
@@ -371,67 +350,65 @@ class VistaGraficaTkinter(IVistaJuego):
 
         tk.Label(
             self.contenedor,
-            text=f"Ronda {numero_ronda} • Fase de Pistas (Categoría: {categoria})",
-            font=("Segoe UI", 13, "bold"),
-            fg="#cba6f7",
-            bg="#181825",
-        ).pack(anchor="w", pady=(0, 8))
+            text=f"Ronda {numero_ronda} - Fase de Pistas (Categoria: {categoria})",
+            font=("Arial", 13, "bold"),
+            fg="#1f2328",
+            bg="#f0f2f5",
+        ).pack(anchor="w", pady=(0, 6))
 
-        # Pistas dadas hasta ahora en la ronda
-        card_prev = self._crear_tarjeta(self.contenedor)
+        panel_prev = self._crear_panel(self.contenedor)
         tk.Label(
-            card_prev,
-            text="Pistas registradas en esta ronda:",
-            font=("Segoe UI", 10, "bold"),
-            fg="#89dceb",
-            bg="#1e1e2e",
+            panel_prev,
+            text="Pistas registradas en la ronda:",
+            font=("Arial", 10, "bold"),
+            fg="#2c3e50",
+            bg="#ffffff",
         ).pack(anchor="w", pady=(0, 6))
 
         if not pistas_previas:
             tk.Label(
-                card_prev,
-                text="Aún no hay pistas en esta ronda. ¡Eres el primero!",
-                font=("Segoe UI", 9, "italic"),
-                fg="#a6adc8",
-                bg="#1e1e2e",
+                panel_prev,
+                text="Aun no hay pistas registradas.",
+                font=("Arial", 9, "italic"),
+                fg="#57606a",
+                bg="#ffffff",
             ).pack(anchor="w")
         else:
             for autor, texto in pistas_previas:
                 tk.Label(
-                    card_prev,
-                    text=f"• {autor}: {texto}",
-                    font=("Segoe UI", 10),
-                    fg="#cdd6f4",
-                    bg="#1e1e2e",
+                    panel_prev,
+                    text=f"- {autor}: {texto}",
+                    font=("Arial", 10),
+                    fg="#1f2328",
+                    bg="#ffffff",
                 ).pack(anchor="w", pady=1)
 
-        # Entrada de pista actual
-        card_turno = self._crear_tarjeta(self.contenedor)
+        panel_turno = self._crear_panel(self.contenedor)
         tk.Label(
-            card_turno,
+            panel_turno,
             text=f"Turno de: {nombre_jugador}",
-            font=("Segoe UI", 14, "bold"),
-            fg="#f9e2af",
-            bg="#1e1e2e",
+            font=("Arial", 13, "bold"),
+            fg="#2c3e50",
+            bg="#ffffff",
         ).pack(anchor="w", pady=(0, 4))
 
         tk.Label(
-            card_turno,
-            text=f"Escribe una pista breve relacionada con la palabra (máx. {longitud_maxima} caracteres, sin decir la palabra):",
-            font=("Segoe UI", 9),
-            fg="#a6adc8",
-            bg="#1e1e2e",
+            panel_turno,
+            text=f"Escribe una pista relacionada (maximo {longitud_maxima} caracteres, sin escribir la palabra secreta):",
+            font=("Arial", 9),
+            fg="#57606a",
+            bg="#ffffff",
         ).pack(anchor="w", pady=(0, 10))
 
         entry_pista = tk.Entry(
-            card_turno,
-            font=("Segoe UI", 12),
-            bg="#313244",
-            fg="#cdd6f4",
-            insertbackground="#cdd6f4",
-            relief=tk.FLAT,
+            panel_turno,
+            font=("Arial", 11),
+            bg="#f6f8fa",
+            fg="#1f2328",
+            relief=tk.SOLID,
+            bd=1,
         )
-        entry_pista.pack(fill=tk.X, ipady=6, pady=(0, 12))
+        entry_pista.pack(fill=tk.X, ipady=5, pady=(0, 12))
         entry_pista.focus_set()
 
         def enviar(_event=None):
@@ -440,7 +417,7 @@ class VistaGraficaTkinter(IVistaJuego):
         entry_pista.bind("<Return>", enviar)
 
         self._crear_boton(
-            card_turno, "Registrar Pista ✔", enviar, bg="#a6e3a1", width=22
+            panel_turno, "Enviar Pista", enviar, bg="#27ae60", width=20
         ).pack()
 
     def mostrar_debate(
@@ -455,49 +432,49 @@ class VistaGraficaTkinter(IVistaJuego):
 
         tk.Label(
             self.contenedor,
-            text=f"Ronda {numero_ronda} • Fase de Debate (Categoría: {categoria})",
-            font=("Segoe UI", 13, "bold"),
-            fg="#f9e2af",
-            bg="#181825",
-        ).pack(anchor="w", pady=(0, 8))
+            text=f"Ronda {numero_ronda} - Fase de Debate (Categoria: {categoria})",
+            font=("Arial", 13, "bold"),
+            fg="#1f2328",
+            bg="#f0f2f5",
+        ).pack(anchor="w", pady=(0, 6))
 
-        card_timer = self._crear_tarjeta(self.contenedor)
+        panel_timer = self._crear_panel(self.contenedor)
         lbl_tiempo = tk.Label(
-            card_timer,
-            text=f"⏱️ Tiempo restante: {segundos_debate}s",
-            font=("Segoe UI", 15, "bold"),
-            fg="#f38ba8",
-            bg="#1e1e2e",
+            panel_timer,
+            text=f"Tiempo restante: {segundos_debate} segundos",
+            font=("Arial", 13, "bold"),
+            fg="#c0392b",
+            bg="#ffffff",
         )
         lbl_tiempo.pack()
 
-        card_pistas = self._crear_tarjeta(self.contenedor)
+        panel_pistas = self._crear_panel(self.contenedor)
         tk.Label(
-            card_pistas,
-            text="Analicen todas las pistas de la ronda y debatan quién es el Impostor:",
-            font=("Segoe UI", 10, "bold"),
-            fg="#89dceb",
-            bg="#1e1e2e",
+            panel_pistas,
+            text="Pistas de todos los jugadores:",
+            font=("Arial", 10, "bold"),
+            fg="#2c3e50",
+            bg="#ffffff",
         ).pack(anchor="w", pady=(0, 8))
 
         for autor, texto in pistas_ronda:
-            fila = tk.Frame(card_pistas, bg="#313244", padx=10, pady=5)
-            fila.pack(fill=tk.X, pady=3)
+            fila = tk.Frame(panel_pistas, bg="#f6f8fa", padx=10, pady=5)
+            fila.pack(fill=tk.X, pady=2)
             tk.Label(
                 fila,
                 text=f"{autor}:",
-                font=("Segoe UI", 10, "bold"),
-                fg="#f9e2af",
-                bg="#313244",
+                font=("Arial", 10, "bold"),
+                fg="#2c3e50",
+                bg="#f6f8fa",
                 width=16,
                 anchor="w",
             ).pack(side=tk.LEFT)
             tk.Label(
                 fila,
                 text=texto,
-                font=("Segoe UI", 10),
-                fg="#cdd6f4",
-                bg="#313244",
+                font=("Arial", 10),
+                fg="#1f2328",
+                bg="#f6f8fa",
                 anchor="w",
             ).pack(side=tk.LEFT, fill=tk.X, expand=True)
 
@@ -506,25 +483,23 @@ class VistaGraficaTkinter(IVistaJuego):
         def actualizar_reloj():
             restante[0] -= 1
             if restante[0] > 0:
-                lbl_tiempo.config(text=f"⏱️ Tiempo restante: {restante[0]}s")
+                lbl_tiempo.config(text=f"Tiempo restante: {restante[0]} segundos")
                 self._timer_id = self.root.after(1000, actualizar_reloj)
             else:
-                lbl_tiempo.config(text="⏱️ ¡Tiempo de debate terminado!")
+                lbl_tiempo.config(text="Tiempo de debate finalizado")
                 self._timer_id = None
 
         self._timer_id = self.root.after(1000, actualizar_reloj)
 
-        frame_btn = tk.Frame(self.contenedor, bg="#181825")
+        frame_btn = tk.Frame(self.contenedor, bg="#f0f2f5")
         frame_btn.pack(pady=12)
         self._crear_boton(
             frame_btn,
-            "Ir a Votación Secreta 🗳️",
+            "Pasar a Votacion",
             on_finalizar_debate,
-            bg="#cba6f7",
-            width=26,
+            bg="#2c3e50",
+            width=24,
         ).pack()
-
-    # ---------------- IVistaVotacion ----------------
 
     def mostrar_votacion_privada(
         self,
@@ -538,54 +513,52 @@ class VistaGraficaTkinter(IVistaJuego):
 
         tk.Label(
             self.contenedor,
-            text=f"Ronda {numero_ronda} • Votación Privada",
-            font=("Segoe UI", 13, "bold"),
-            fg="#f38ba8",
-            bg="#181825",
-        ).pack(anchor="w", pady=(0, 8))
+            text=f"Ronda {numero_ronda} - Votacion",
+            font=("Arial", 13, "bold"),
+            fg="#1f2328",
+            bg="#f0f2f5",
+        ).pack(anchor="w", pady=(0, 6))
 
-        card = self._crear_tarjeta(self.contenedor)
+        panel = self._crear_panel(self.contenedor)
         tk.Label(
-            card,
-            text=f"Turno de voto de: {nombre_votante}",
-            font=("Segoe UI", 14, "bold"),
-            fg="#f9e2af",
-            bg="#1e1e2e",
+            panel,
+            text=f"Voto de: {nombre_votante}",
+            font=("Arial", 13, "bold"),
+            fg="#2c3e50",
+            bg="#ffffff",
         ).pack(anchor="w", pady=(0, 4))
 
         tk.Label(
-            card,
-            text="Selecciona al jugador que crees que es el Impostor (no puedes votarte a ti mismo):",
-            font=("Segoe UI", 9),
-            fg="#a6adc8",
-            bg="#1e1e2e",
+            panel,
+            text="Selecciona al jugador sospechoso (no puedes votarte a ti mismo):",
+            font=("Arial", 9),
+            fg="#57606a",
+            bg="#ffffff",
         ).pack(anchor="w", pady=(0, 10))
 
         var_elegido = tk.StringVar(value="")
-
         pistas_dict = dict(pistas_ronda)
+
         for candidato in candidatos:
             pista_cand = pistas_dict.get(candidato, "")
-            texto_opcion = f"{candidato}   (Pista: \"{pista_cand}\")"
+            texto_opcion = f"{candidato} (Pista: {pista_cand})"
             tk.Radiobutton(
-                card,
+                panel,
                 text=texto_opcion,
                 variable=var_elegido,
                 value=candidato,
-                font=("Segoe UI", 10),
-                bg="#1e1e2e",
-                fg="#cdd6f4",
-                selectcolor="#313244",
-                activebackground="#1e1e2e",
-                activeforeground="#89b4fa",
+                font=("Arial", 10),
+                bg="#ffffff",
+                fg="#1f2328",
+                activebackground="#ffffff",
             ).pack(anchor="w", pady=3)
 
         self._crear_boton(
-            card,
-            "Confirmar Voto 🗳️",
+            panel,
+            "Confirmar Voto",
             lambda: on_registrar_voto(var_elegido.get()),
-            bg="#f38ba8",
-            width=22,
+            bg="#c0392b",
+            width=20,
         ).pack(pady=(14, 4))
 
     def solicitar_ultima_oportunidad(
@@ -595,34 +568,34 @@ class VistaGraficaTkinter(IVistaJuego):
     ) -> None:
         self._limpiar_pantalla()
 
-        card = self._crear_tarjeta(self.contenedor, pady=20)
+        panel = self._crear_panel(self.contenedor, pady=16)
         tk.Label(
-            card,
-            text="🎯 ¡EL IMPOSTOR HA SIDO DESCUBIERTO!",
-            font=("Segoe UI", 15, "bold"),
-            fg="#f38ba8",
-            bg="#1e1e2e",
-        ).pack(pady=(5, 8))
+            panel,
+            text="El Impostor ha sido descubierto",
+            font=("Arial", 14, "bold"),
+            fg="#c0392b",
+            bg="#ffffff",
+        ).pack(pady=(4, 8))
 
         tk.Label(
-            card,
-            text=f"{nombre_impostor}, tienes una ÚLTIMA OPORTUNIDAD para robar la victoria.\nEscribe cuál crees que es la palabra secreta:",
-            font=("Segoe UI", 10),
-            fg="#cdd6f4",
-            bg="#1e1e2e",
+            panel,
+            text=f"{nombre_impostor}, tienes una ultima oportunidad.\nEscribe cual crees que es la palabra secreta:",
+            font=("Arial", 10),
+            fg="#1f2328",
+            bg="#ffffff",
             justify=tk.CENTER,
         ).pack(pady=(0, 12))
 
         entry_adivina = tk.Entry(
-            card,
-            font=("Segoe UI", 13),
-            bg="#313244",
-            fg="#f9e2af",
-            insertbackground="#f9e2af",
+            panel,
+            font=("Arial", 12),
+            bg="#f6f8fa",
+            fg="#1f2328",
             justify=tk.CENTER,
-            relief=tk.FLAT,
+            relief=tk.SOLID,
+            bd=1,
         )
-        entry_adivina.pack(ipady=6, ipadx=15, pady=(0, 14))
+        entry_adivina.pack(ipady=5, ipadx=15, pady=(0, 14))
         entry_adivina.focus_set()
 
         def enviar(_event=None):
@@ -631,10 +604,8 @@ class VistaGraficaTkinter(IVistaJuego):
         entry_adivina.bind("<Return>", enviar)
 
         self._crear_boton(
-            card, "Intentar Adivinar 🎲", enviar, bg="#f9e2af", width=24
+            panel, "Adivinar Palabra", enviar, bg="#2980b9", width=22
         ).pack()
-
-    # ---------------- IVistaResultado ----------------
 
     def mostrar_resultado_final(
         self,
@@ -648,98 +619,97 @@ class VistaGraficaTkinter(IVistaJuego):
     ) -> None:
         self._limpiar_pantalla()
 
-        card_res = self._crear_tarjeta(self.contenedor)
+        panel_res = self._crear_panel(self.contenedor)
         tk.Label(
-            card_res,
-            text=f"🏆 {ganador.upper()}",
-            font=("Segoe UI", 16, "bold"),
-            fg="#a6e3a1" if "CIVIL" in ganador.upper() else "#f38ba8",
-            bg="#1e1e2e",
+            panel_res,
+            text=ganador.upper(),
+            font=("Arial", 15, "bold"),
+            fg="#1e7e34" if "CIVIL" in ganador.upper() else "#c0392b",
+            bg="#ffffff",
         ).pack(pady=(2, 4))
 
         tk.Label(
-            card_res,
+            panel_res,
             text=detalle,
-            font=("Segoe UI", 10),
-            fg="#cdd6f4",
-            bg="#1e1e2e",
+            font=("Arial", 10),
+            fg="#1f2328",
+            bg="#ffffff",
         ).pack(pady=(0, 6))
 
         tk.Label(
-            card_res,
-            text=f"🔑 Palabra secreta: {palabra_secreta}",
-            font=("Segoe UI", 12, "bold"),
-            fg="#f9e2af",
-            bg="#1e1e2e",
+            panel_res,
+            text=f"Palabra secreta: {palabra_secreta}",
+            font=("Arial", 11, "bold"),
+            fg="#2c3e50",
+            bg="#ffffff",
         ).pack()
 
-        # Tabla de roles revelados y marcador acumulado
-        card_tabla = self._crear_tarjeta(self.contenedor)
+        panel_tabla = self._crear_panel(self.contenedor)
         tk.Label(
-            card_tabla,
+            panel_tabla,
             text="Roles Revelados y Marcador Acumulado:",
-            font=("Segoe UI", 10, "bold"),
-            fg="#89dceb",
-            bg="#1e1e2e",
+            font=("Arial", 10, "bold"),
+            fg="#2c3e50",
+            bg="#ffffff",
         ).pack(anchor="w", pady=(0, 6))
 
         for nombre, rol, estado in roles_revelados:
             puntos = marcador_acumulado.get(nombre, 0)
-            color_rol = "#f38ba8" if rol == "Impostor" else "#a6e3a1"
-            fila = tk.Frame(card_tabla, bg="#313244", padx=10, pady=4)
+            color_rol = "#c0392b" if rol == "Impostor" else "#1e7e34"
+            fila = tk.Frame(panel_tabla, bg="#f6f8fa", padx=10, pady=4)
             fila.pack(fill=tk.X, pady=2)
 
             tk.Label(
                 fila,
                 text=nombre,
-                font=("Segoe UI", 10, "bold"),
-                fg="#cdd6f4",
-                bg="#313244",
+                font=("Arial", 10, "bold"),
+                fg="#1f2328",
+                bg="#f6f8fa",
                 width=18,
                 anchor="w",
             ).pack(side=tk.LEFT)
             tk.Label(
                 fila,
                 text=rol,
-                font=("Segoe UI", 10, "bold"),
+                font=("Arial", 10, "bold"),
                 fg=color_rol,
-                bg="#313244",
+                bg="#f6f8fa",
                 width=12,
                 anchor="w",
             ).pack(side=tk.LEFT)
             tk.Label(
                 fila,
                 text=f"Estado: {estado}",
-                font=("Segoe UI", 9),
-                fg="#a6adc8",
-                bg="#313244",
+                font=("Arial", 9),
+                fg="#57606a",
+                bg="#f6f8fa",
                 width=16,
                 anchor="w",
             ).pack(side=tk.LEFT)
             tk.Label(
                 fila,
                 text=f"Puntos: {puntos}",
-                font=("Segoe UI", 10, "bold"),
-                fg="#f9e2af",
-                bg="#313244",
+                font=("Arial", 10, "bold"),
+                fg="#2c3e50",
+                bg="#f6f8fa",
                 anchor="e",
             ).pack(side=tk.RIGHT)
 
-        botones = tk.Frame(self.contenedor, bg="#181825")
+        botones = tk.Frame(self.contenedor, bg="#f0f2f5")
         botones.pack(pady=12)
 
         self._crear_boton(
             botones,
-            "🔄 Jugar Otra Partida",
+            "Nueva Partida",
             on_nueva_partida,
-            bg="#a6e3a1",
-            width=22,
+            bg="#27ae60",
+            width=20,
         ).pack(side=tk.LEFT, padx=8)
 
         self._crear_boton(
             botones,
-            "👥 Cambiar Jugadores",
+            "Volver al Registro",
             on_volver_registro,
-            bg="#89b4fa",
-            width=22,
+            bg="#2980b9",
+            width=20,
         ).pack(side=tk.LEFT, padx=8)
