@@ -92,14 +92,11 @@ python main.py
 
 La GUI debe probarse manualmente en el equipo que se usará para la sustentación, especialmente el temporizador y el recorrido completo de una partida.
 
-## 7. Estructura de la documentación y UML
+## 7. Diagramas y anexos
 
-- `Documentacion_Tecnica_El_Impostor_main.docx`: informe editable con la fotografía original del UML manuscrito en el Anexo A.
-- `Documentacion_Tecnica_El_Impostor_main.pdf`: versión de lectura del informe.
-- `diagrama_UML_original.jpg`: fotografía del diagrama de clases elaborado inicialmente por el equipo.
-- `diagrama_clases_main.mmd`: diagrama editable que representa el modelo de la implementación.
+El repositorio conserva el diagrama de clases actualizado en `diagrama_clases_main.mmd` y la descripción del diseño en este informe. La fotografía del diagrama UML manuscrito original del equipo está incluida en el Anexo A de los documentos Word/PDF adjuntos a esta entrega; los archivos binarios no se han almacenado directamente en GitHub en esta rama.
 
-El UML manuscrito documenta el diseño inicial. El diagrama Mermaid representa las clases de la versión actual; ambos deben conservarse porque cumplen funciones distintas.
+El UML manuscrito documenta el diseño inicial. El diagrama Mermaid representa las clases de la versión actual; ambos cumplen funciones distintas.
 
 ## 8. Conclusión
 
