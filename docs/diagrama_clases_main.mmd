@@ -1,0 +1,108 @@
+classDiagram
+class Categoria {
+  -str nombre
+  +obtener_nombre() str
+}
+class PalabraSecreta {
+  -str texto
+  -Categoria categoria
+  +coincide_con(t) bool
+}
+class ConfiguracionPartida {
+  -int numero_rondas
+  -int tiempo_debate
+  -Categoria categoria
+  -bool ultima_oportunidad
+  -int longitud_max_pista
+  +validar() None
+}
+class Partida {
+  -List~Jugador~ jugadores
+  -List~Ronda~ rondas
+  -PalabraSecreta palabra_secreta
+  -ConfiguracionPartida configuracion
+  +iniciar() None
+  +nueva_ronda() Ronda
+  +determinar_ganador() ResultadoPartida
+}
+class Jugador {
+  -int id
+  -str nombre
+  -Rol rol
+  -EstadoJugador estado
+  +dar_pista(texto) Pista
+  +votar(acusado) Voto
+}
+class Rol {
+  <<abstract>>
+  -str nombre
+  +conoce_palabra() bool
+  +obtener_palabra_visible() str
+  +intentar_adivinar(t) bool
+}
+class Civil {
+  -PalabraSecreta palabra_secreta
+}
+class Impostor {
+  -bool intento_disponible
+}
+class Ronda {
+  -int numero
+  -List~Pista~ pistas
+  -List~Voto~ votos
+  -FaseJuego fase
+  +registrar_pista(p) None
+  +registrar_voto(v) None
+  +avanzar_fase() None
+}
+class Pista {
+  -Jugador autor
+  -str texto
+  -int numero_turno
+  +get_texto() str
+  +get_autor() Jugador
+}
+class Voto {
+  -Jugador votante
+  -Jugador acusado
+  +get_acusado() Jugador
+}
+class ResultadoPartida {
+  -str ganador
+  -Jugador acusado
+  -Dict roles_revelados
+  +generar_resumen() str
+}
+class EstadoJugador {
+  <<enumeration>>
+  ACTIVO
+  ELIMINADO
+}
+class FaseJuego {
+  <<enumeration>>
+  REGISTRO
+  ASIGNACION
+  PISTAS
+  DEBATE
+  VOTACION
+  RESULTADO
+}
+Rol <|-- Civil
+Rol <|-- Impostor
+Jugador --> Rol
+Jugador --> EstadoJugador
+Jugador ..> Pista : crea
+Jugador ..> Voto : crea
+Civil --> PalabraSecreta
+PalabraSecreta --> Categoria
+ConfiguracionPartida --> Categoria
+Partida o-- Jugador
+Partida o-- Ronda
+Partida --> PalabraSecreta
+Partida --> ConfiguracionPartida
+Partida ..> ResultadoPartida
+Ronda o-- Pista
+Ronda o-- Voto
+Ronda --> FaseJuego
+Pista --> Jugador : autor
+Voto --> Jugador : votante / acusado
