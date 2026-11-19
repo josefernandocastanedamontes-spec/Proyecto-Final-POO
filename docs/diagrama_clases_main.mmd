@@ -19,11 +19,13 @@ class ConfiguracionPartida {
 class Partida {
   -List~Jugador~ jugadores
   -List~Ronda~ rondas
+  -List~ResultadoPartida~ resultados
   -PalabraSecreta palabra_secreta
   -ConfiguracionPartida configuracion
   +iniciar() None
   +nueva_ronda() Ronda
-  +determinar_ganador() ResultadoPartida
+  +registrar_resultado(resultado) None
+  +determinar_ganador() Optional~ResultadoPartida~
 }
 class Jugador {
   -int id
@@ -50,10 +52,13 @@ class Ronda {
   -int numero
   -List~Pista~ pistas
   -List~Voto~ votos
+  -List~Voto~ votos_desempate
   -FaseJuego fase
-  +registrar_pista(p) None
-  +registrar_voto(v) None
-  +avanzar_fase() None
+  -ResultadoPartida resultado
+  +avanzar_fase() FaseJuego
+  +registrar_pista(pista) None
+  +registrar_voto(voto, desempate) None
+  +registrar_resultado(resultado) None
 }
 class Pista {
   -Jugador autor
@@ -87,8 +92,36 @@ class FaseJuego {
   VOTACION
   RESULTADO
 }
+class IAsignadorRoles {
+  <<interface>>
+  +asignar_roles(jugadores, palabra) None
+}
+class IContadorVotos {
+  <<interface>>
+  +contar_votos(votos) Optional
+  +obtener_candidatos_empatados(votos) List
+}
+class IRepositorioPalabras {
+  <<interface>>
+  +obtener_palabra_aleatoria(categoria) PalabraSecreta
+  +obtener_categorias_disponibles() List
+}
+class IValidadorPista {
+  <<interface>>
+  +validar(pista, palabra) bool
+}
+class ValidadorPistaCompuesto {
+  -List~IValidadorPista~ validadores
+  +validar(pista, palabra) bool
+}
 Rol <|-- Civil
 Rol <|-- Impostor
+IAsignadorRoles <|.. AsignadorRolesAleatorio
+IContadorVotos <|.. ContadorVotosMayoria
+IRepositorioPalabras <|.. RepositorioPalabrasMemoria
+IValidadorPista <|.. ValidadorLongitud
+IValidadorPista <|.. ValidadorPalabraProhibida
+IValidadorPista <|.. ValidadorPistaCompuesto
 Jugador --> Rol
 Jugador --> EstadoJugador
 Jugador ..> Pista : crea
@@ -98,11 +131,14 @@ PalabraSecreta --> Categoria
 ConfiguracionPartida --> Categoria
 Partida o-- Jugador
 Partida o-- Ronda
+Partida o-- ResultadoPartida
 Partida --> PalabraSecreta
 Partida --> ConfiguracionPartida
-Partida ..> ResultadoPartida
 Ronda o-- Pista
 Ronda o-- Voto
+Ronda o-- Voto : votos de desempate
 Ronda --> FaseJuego
+Ronda --> ResultadoPartida
 Pista --> Jugador : autor
 Voto --> Jugador : votante / acusado
+ValidadorPistaCompuesto o-- IValidadorPista
