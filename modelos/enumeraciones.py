@@ -1,13 +1,17 @@
-from enum import Enum
+from enum import Enum, auto
+
 
 class EstadoJugador(Enum):
-    ACTIVO = 1
-    ELIMINADO = 2
+    ACTIVO = auto()
+    ELIMINADO = auto()
+
 
 class FaseJuego(Enum):
-    REGISTRO = 1
-    ASIGNACION = 2
-    PISTAS = 3
-    DEBATE = 4
-    VOTACION = 5
-    RESULTADO = 6
+    REGISTRO = auto()
+    ASIGNACION = auto()
+    REVELACION = auto()
+    PISTAS = auto()
+    DEBATE = auto()
+    VOTACION = auto()
+    DESEMPATE = auto()
+    RESULTADO = auto()

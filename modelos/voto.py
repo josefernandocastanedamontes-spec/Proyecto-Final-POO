@@ -5,7 +5,11 @@ class Voto:
 
     def get_acusado(self):
         return self._acusado
-        
+
     @property
     def votante(self):
         return self._votante
+
+    @property
+    def acusado(self):
+        return self._acusado

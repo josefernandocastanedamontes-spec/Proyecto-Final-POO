@@ -1,22 +1,24 @@
 import random
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Optional
+
 
 class IAsignadorRoles(ABC):
     @abstractmethod
     def asignar_roles(self, jugadores: List, palabra) -> None:
-        pass
+        raise NotImplementedError
+
 
 class AsignadorRolesAleatorio(IAsignadorRoles):
+    def __init__(self, generador: Optional[random.Random] = None):
+        self._generador = generador or random.Random()
+
     def asignar_roles(self, jugadores: List, palabra) -> None:
-        if not jugadores or len(jugadores) < 3:
-            raise ValueError("Se requieren al menos 3 jugadores para iniciar la partida.")
-        
+        if not 3 <= len(jugadores) <= 10:
+            raise ValueError("Se requieren entre 3 y 10 jugadores para iniciar la partida.")
         from modelos.impostor import Impostor
         from modelos.civil import Civil
-        
-        random.shuffle(jugadores)
-        jugadores[0].rol = Impostor()
-        
-        for jugador in jugadores[1:]:
-            jugador.rol = Civil(palabra)
+
+        impostor = self._generador.choice(jugadores)
+        for jugador in jugadores:
+            jugador.rol = Impostor() if jugador is impostor else Civil(palabra)

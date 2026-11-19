@@ -1,6 +1,7 @@
 from modelos.rol import Rol
 from modelos.palabrasecreta import PalabraSecreta
 
+
 class Civil(Rol):
     def __init__(self, palabra_secreta: PalabraSecreta):
         super().__init__("Civil")
@@ -10,9 +11,11 @@ class Civil(Rol):
         return True
 
     def obtener_palabra_visible(self) -> str:
-        return (f"¡ERES UN CIVIL!\n"
-                f"Descubre quién miente.\n"
-                f"Palabra secreta: {self._palabra_secreta.texto}")
+        return (
+            "¡ERES UN CIVIL!\n"
+            "Descubre quién es el impostor.\n"
+            f"Palabra secreta: {self._palabra_secreta.texto}"
+        )
 
-    def intentar_adivinar(self, t: str) -> bool:
+    def intentar_adivinar(self, texto: str, palabra_secreta=None) -> bool:
         return False

@@ -1,34 +1,37 @@
 import random
 from abc import ABC, abstractmethod
+from typing import Dict, List, Optional
+
 from modelos.palabrasecreta import PalabraSecreta
 from modelos.categoria import Categoria
+from modelos.excepciones import BancoPalabrasVacioException
+
 
 class IRepositorioPalabras(ABC):
     @abstractmethod
     def obtener_palabra_aleatoria(self, categoria: Categoria) -> PalabraSecreta:
-        pass
+        raise NotImplementedError
+
 
 class RepositorioPalabrasMemoria(IRepositorioPalabras):
-    def __init__(self):
-        # Banco de palabras organizado por las 3 categorías exactas
-        self.banco_palabras = {
+    def __init__(self, banco_palabras: Optional[Dict[str, List[str]]] = None,
+                 generador: Optional[random.Random] = None):
+        self._banco_palabras = banco_palabras or {
             "Lugares": ["Playa", "Montaña", "Hospital", "Cine", "Parque", "Aeropuerto", "Museo", "Colegio"],
             "Comida": ["Pizza", "Hamburguesa", "Sushi", "Ensalada", "Helado", "Tacos", "Pasta", "Ceviche"],
-            "Animales": ["Perro", "Gato", "Elefante", "Tigre", "Delfin", "Leon", "Jirafa", "Pinguino"]
+            "Animales": ["Perro", "Gato", "Elefante", "Tigre", "Delfín", "León", "Jirafa", "Pingüino"],
         }
-        
+        self._generador = generador or random.Random()
+
     def obtener_palabra_aleatoria(self, categoria: Categoria) -> PalabraSecreta:
-        # capitalizze() asegura que "comida" o "COMIDA" se convierta en "Comida" para buscar en el diccionario
-        nombre_cat = categoria.obtener_nombre().capitalize()
-        
-        if nombre_cat not in self.banco_palabras:
-            raise ValueError(f"La categoría '{nombre_cat}' no existe en el repositorio.")
-            
-        # Selecciona aleatoriamente una palabra de la lista correspondiente
-        texto_aleatorio = random.choice(self.banco_palabras[nombre_cat])
-        
-        return PalabraSecreta(texto_aleatorio, categoria)
-        
+        nombre_cat = categoria.obtener_nombre().strip().casefold()
+        coincidencia = next((k for k in self._banco_palabras if k.casefold() == nombre_cat), None)
+        if coincidencia is None:
+            raise BancoPalabrasVacioException(f"La categoría '{categoria}' no existe en el banco.")
+        palabras = self._banco_palabras[coincidencia]
+        if not palabras:
+            raise BancoPalabrasVacioException(f"La categoría '{coincidencia}' no tiene palabras.")
+        return PalabraSecreta(self._generador.choice(palabras), categoria)
+
     def obtener_categorias_disponibles(self) -> list:
-        """Método útil para que la interfaz gráfica sepa qué categorías mostrar en un menú."""
-        return list(self.banco_palabras.keys())
+        return list(self._banco_palabras.keys())
