@@ -161,6 +161,7 @@ class TestFlujoPartida(unittest.TestCase):
             respuesta = controlador.registrar_voto(votante, objetivo)
         self.assertEqual(respuesta["estado"], "resultado")
         self.assertEqual(respuesta["resultado"].ganador, "Impostor")
+        self.assertIs(civil.estado, EstadoJugador.ELIMINADO)
 
     def test_partida_gana_impostor_si_adivina_correctamente(self):
         controlador = self._preparar_partida_hasta_votacion(ultima=True)

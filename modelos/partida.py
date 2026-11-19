@@ -107,12 +107,15 @@ class Partida:
                     motivo = "El impostor acertó la última oportunidad."
                 else:
                     ganador = "Civiles"
+                    impostor.estado = EstadoJugador.ELIMINADO
                     motivo = "El impostor fue descubierto y no acertó la última oportunidad."
             else:
                 ganador = "Civiles"
+                impostor.estado = EstadoJugador.ELIMINADO
                 motivo = "El impostor fue descubierto."
         else:
             ganador = "Impostor"
+            acusado.estado = EstadoJugador.ELIMINADO
             motivo = f"El grupo acusó a {acusado.nombre}, que era civil."
         roles = {j.nombre: j.rol.nombre if j.rol else "Sin asignar" for j in self._jugadores}
         resultado = ResultadoPartida(ganador, acusado, roles, motivo)
