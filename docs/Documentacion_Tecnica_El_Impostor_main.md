@@ -94,9 +94,13 @@ La GUI debe probarse manualmente en el equipo que se usará para la sustentació
 
 ## 7. Diagramas y anexos
 
-El repositorio conserva el diagrama de clases actualizado en `diagrama_clases_main.mmd` y la descripción del diseño en este informe. La fotografía del diagrama UML manuscrito original del equipo está incluida en el Anexo A de los documentos Word/PDF adjuntos a esta entrega; los archivos binarios no se han almacenado directamente en GitHub en esta rama.
+El repositorio conserva el diagrama de clases actualizado en [diagrama_clases_main.mmd](./diagrama_clases_main.mmd), que representa las clases de la implementación actual. También se incorpora por separado la fotografía del diagrama UML manuscrito original elaborado por el equipo: [diagrama_clases_original_equipo.jpg](./diagrama_clases_original_equipo.jpg).
 
-El UML manuscrito documenta el diseño inicial. El diagrama Mermaid representa las clases de la versión actual; ambos cumplen funciones distintas.
+El UML manuscrito documenta el diseño inicial y se conserva como evidencia del trabajo original. El diagrama Mermaid representa las clases de la versión actual; ambos cumplen funciones distintas.
+
+### 7.1 Video de demostración del funcionamiento
+
+La demostración audiovisual del juego está disponible en YouTube: [Ver demostración del funcionamiento de El Impostor](https://youtu.be/2-C16hEieo8?si=wfyZLq3YzCOQ-uqD). El video complementa la documentación y permite observar el recorrido de la aplicación.
 
 ## 8. Conclusión
 
