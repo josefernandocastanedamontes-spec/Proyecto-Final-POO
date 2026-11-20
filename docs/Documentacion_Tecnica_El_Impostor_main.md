@@ -94,7 +94,7 @@ La GUI debe probarse manualmente en el equipo que se usará para la sustentació
 
 ## 7. Diagramas y anexos
 
-El repositorio conserva el diagrama de clases actualizado en [diagrama_clases_main.mmd](./diagrama_clases_main.mmd), que representa las clases de la implementación actual. También se incorpora por separado la fotografía del diagrama UML manuscrito original elaborado por el equipo: [diagrama_clases_original_equipo.jpg](./diagrama_clases_original_equipo.jpg).
+El repositorio conserva el diagrama de clases actualizado en [diagrama_clases_main.mmd](./diagrama_clases_main.mmd), que representa las clases de la implementación actual. También se incorpora por separado la fotografía del diagrama UML manuscrito original elaborado por el equipo: [diagrama_clases_original_equipo.jpg](./imagenes/diagrama_clases_original_equipo.jpg).
 
 El UML manuscrito documenta el diseño inicial y se conserva como evidencia del trabajo original. El diagrama Mermaid representa las clases de la versión actual; ambos cumplen funciones distintas.
 
